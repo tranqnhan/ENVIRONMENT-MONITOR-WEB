@@ -1,0 +1,38 @@
+"use client"
+
+import { useState } from "react";
+import DefaultButton from "./default_button";
+import LoadingWheel from "./loading_wheel";
+
+export default function Settings() {
+   const [bluetoothScan, setBluetoothScan] = useState<boolean>(false);
+
+    function startScanningBluetoothDevice() {
+        setBluetoothScan(true)
+    }
+
+    return (
+        <div className="flex flex-col gap-2">
+          <h2 className="font-bold">
+            Network Provisioning
+          </h2>
+
+          <div className="px-4 flex flex-col gap-2">
+            Scan bluetooth device
+                <div className="flex flex-col gap-4 items-center">
+                    <input
+                        type="text"
+                        placeholder="Device Name"
+                        className="w-full rounded-md border border-gray-300 px-4 py-2"
+                        />
+                    
+                    { bluetoothScan ? <LoadingWheel/> : 
+                        <DefaultButton onclick={startScanningBluetoothDevice}>
+                            Scan
+                        </DefaultButton>
+                    }
+                </div>
+          </div>
+        </div>
+    );
+}
