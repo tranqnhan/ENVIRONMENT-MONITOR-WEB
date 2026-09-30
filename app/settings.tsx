@@ -6,9 +6,20 @@ import LoadingWheel from "./loading_wheel";
 
 export default function Settings() {
    const [bluetoothScan, setBluetoothScan] = useState<boolean>(false);
+   const [message, setMessage] = useState("error goes here");
 
     function startScanningBluetoothDevice() {
-        setBluetoothScan(true)
+        setBluetoothScan(true);
+        setMessage("Secure:" + window.isSecureContext);
+        navigator.bluetooth.requestDevice({
+              filters: [{
+                name: 'BLE_ESP32_PROV'
+            }],
+        })
+        .then(device => { 
+            setMessage("Device name: " + device.name);
+         })
+        .catch(error => { setMessage(error); });
     }
 
     return (
@@ -31,6 +42,9 @@ export default function Settings() {
                             Scan
                         </DefaultButton>
                     }
+                    <p>
+                        {message}
+                    </p>
                 </div>
           </div>
         </div>
